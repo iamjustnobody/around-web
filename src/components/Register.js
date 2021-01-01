@@ -15,8 +15,11 @@ import {Form, Input,
  //   Tooltip, Cascader, Select, Row, Col, Checkbox,
     Button,
  //   AutoComplete,
+    message,
 } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+//import { QuestionCircleOutlined } from '@ant-design/icons';
+import { API_ROOT } from '../constants';
+
 /*
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
@@ -90,8 +93,33 @@ const tailFormItemLayout = {
 export const Register = () => {
     const [form] = Form.useForm();
 
-    const onFinish = (values) => {
-        console.log('Received values of form: ', values);
+    const onFinish = (err, values) => {
+        if(!err){
+            console.log('Received values of form: ', values);
+            //fire api call
+                fetch(`${API_ROOT}/signup`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        username: values.username,
+                        password: values.password,
+                    }),
+                }).then((response) => {
+                    if (response.ok) {
+                        return response;
+                    }
+                    throw new Error(response.statusText);
+                }).then((response) =>
+                    response.text()
+                ).then((response) => {
+                    message.success('Registration Succeed');
+                    console.log(response);
+                }).catch((e) => {
+                    message.error('Registration Failed');
+                    console.log(e);
+                })
+
+
+        }
     };
 /*
     const prefixSelector = (
