@@ -5,7 +5,9 @@ import {test} from "./test"
 export class Main extends React.Component{
     render(){
         return (
-            <Register />
+            <div className="main">
+                <Register />
+            </div>
         );
     }
 }

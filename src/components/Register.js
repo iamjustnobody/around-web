@@ -122,7 +122,7 @@ export const Register = () => {
     }));
  */
     return (
-        <Form
+        < Form className="register"
             {...formItemLayout}
             form={form}
             name="register"
