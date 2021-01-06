@@ -93,7 +93,41 @@ const tailFormItemLayout = {
 export const Register = () => {
     const [form] = Form.useForm();
 
-    const onFinish = (err, values) => {
+    const onFinish = (values) => { //(err, values)
+    //    validator(e,v)=>{try throw catch}
+        try{
+            console.log('Received values of form: ', values);
+            //fire api call
+            fetch(`${API_ROOT}/signup`, {
+             //   mode: "no-cors",
+             /*   headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Credentials': true,
+                    'Access-Control-Allow-Methods': 'POST, GET'
+                },*/
+                method: 'POST',
+                body: JSON.stringify({
+                    username: values.username,
+                    password: values.password,
+                }),
+            }).then((response) => {
+                if (response.ok) {
+                    return response;
+                }
+                throw new Error(response.statusText);
+            }).then((response) => {
+                message.success('Registration Succeed');
+                console.log(response);
+            }).catch((e) => {
+                message.error('Registration Failed');
+                console.log(e);
+            });
+
+        }catch(err){
+            alert(err);
+            console.log(err);
+        }
+        /*
         if(!err){
             console.log('Received values of form: ', values);
             //fire api call
@@ -116,10 +150,11 @@ export const Register = () => {
                 }).catch((e) => {
                     message.error('Registration Failed');
                     console.log(e);
-                })
+                });
 
 
-        }
+
+        } */
     };
 /*
     const prefixSelector = (
@@ -215,7 +250,38 @@ export const Register = () => {
             </Form.Item>
 
 
-            <Form.Item {...tailFormItemLayout}>
+            <Form.Item
+                {...tailFormItemLayout}
+/*
+                rules={[
+                    {
+                        validator: (err, values) => {
+                            //fire api call
+                            fetch(`${API_ROOT}/signup`, {
+                                method: 'POST',
+                                body: JSON.stringify({
+                                    username: values.username,
+                                    password: values.password,
+                                }),
+                            }).then((response) => {
+                                if (response.ok) {
+                                    return response;
+                                }
+                                throw new Error(response.statusText);
+                            }).then((response) =>
+                                response.text()
+                            ).then((response) => {
+                                message.success('Registration Succeed2');
+                                console.log(response);
+                            }).catch((e) => {
+                                message.error('Registration Failed2');
+                                console.log(e);
+                            });
+                        }
+                    },
+                ]}
+*/
+            >
                 <Button type="primary" htmlType="submit">
                     Register
                 </Button>
