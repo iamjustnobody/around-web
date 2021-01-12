@@ -9,9 +9,10 @@
 }
 .App-header {
     background-color: #282c34;
-    display: flex;
+/*    display: flex;
     align-items: center;
-    justify-content: left;
+    justify-content: left; */
+    text-align: left;
     font-size: calc(10px + 2vmin);
     color: white;
 }
@@ -28,4 +29,11 @@
     to {
         transform: rotate(360deg);
     }
+}
+
+.LogoutIcon{
+    float: right;
+    margin:15px 20px;
+    font-size: 0.8em
+;
 }

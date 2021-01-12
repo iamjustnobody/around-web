@@ -19,6 +19,8 @@ import {Form, Input,
 } from 'antd';
 //import { QuestionCircleOutlined } from '@ant-design/icons';
 import { API_ROOT } from '../constants';
+import {Link,Redirect} from "react-router-dom";
+import {Login} from "./Login";
 
 /*
 const { Option } = Select;
@@ -90,7 +92,7 @@ const tailFormItemLayout = {
     },
 };
 
-export const Register = () => {
+export const Register = (props) => {
     const [form] = Form.useForm();
 
     const onFinish = (values) => { //(err, values)
@@ -118,6 +120,10 @@ export const Register = () => {
             }).then((response) => {
                 message.success('Registration Succeed');
                 console.log(response);
+                props.history.push("/login");
+            //    return <Redirect to="/login" />;
+            //      return <Login toSignIn={props.toLogIn}/>;
+
             }).catch((e) => {
                 message.error('Registration Failed');
                 console.log(e);
@@ -285,6 +291,7 @@ export const Register = () => {
                 <Button type="primary" htmlType="submit">
                     Register
                 </Button>
+                <p>Or already have an account, go back <Link to="/login">Log In</Link> Now! </p>
             </Form.Item>
         </Form>
     );

@@ -12,21 +12,57 @@ export class Login extends React.Component{
 }
 */
 
-import { Form, Input, Button, Checkbox } from 'antd';
+import {Form, Input, Button, Checkbox, message} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import {API_ROOT} from "../constants";
+import {Link, Redirect} from "react-router-dom";
+import {Home} from "./Home";
 
-export const Login = (props) => {
+export const Login = (props) => { //console.log(props.toSignIn);
     const onFinish = (values) => {
-        console.log('Received values of form: ', values);
+        try{
+            console.log('Received values of form: ', values);
+            //fire api call
+            fetch(`${API_ROOT}/login`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    username: values.username,
+                    password: values.password,
+                }),
+            }).then((response) => {
+                if (response.ok) {
+                    return response.text();
+                }
+                throw new Error(response.statusText);
+            }).then((response) => {
+                message.success('Login Succeed');
+                console.log(response);  //Bearer
+            //    props.toSignIn();
+            //    props.history.push("/home");
+             //   return <Redirect to="/home" />;
+              //  return <Home toSignOut={props.toLogOut}/
+                props.toSignIn(response);  //response as Bearer
+                //LOCALSTORAGE
+            }).catch((e) => {
+                message.error('Login Failed');
+                console.log(e);
+            });
+
+        }catch(err){
+            alert(err);
+            console.log(err);
+        }
     };
 
     return (
         <Form
             name="normal_login"
             className="login-form"
+            /*
             initialValues={{
                 remember: true,
             }}
+             */
             onFinish={onFinish}
         >
             <Form.Item
@@ -57,10 +93,10 @@ export const Login = (props) => {
             </Form.Item>
 
             <Form.Item>
-                <Button type="primary" htmlType="submit" className="login-form-button" onClick={props.toSignIn}>
+                <Button type="primary" htmlType="submit" className="login-form-button" >
                     Log in
                 </Button>
-                Or <a href="">register now!</a>
+                Or <Link to="/register">Register Now!</Link>
             </Form.Item>
         </Form>
     );
