@@ -19,7 +19,7 @@ import {Form, Input,
 } from 'antd';
 //import { QuestionCircleOutlined } from '@ant-design/icons';
 import { API_ROOT } from '../constants';
-import {Link,Redirect} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import {Login} from "./Login";
 
 /*
@@ -92,8 +92,15 @@ const tailFormItemLayout = {
     },
 };
 
-export const Register = (props) => {
+export const Register = (props) => { console.log(props);
     const [form] = Form.useForm();
+/*
+    const webpage = ()=>{
+        return (<Redirect to="/login" />); //<Login toSignIn={props.toLogIn}/>
+    }*/
+
+    const [logout2login, setLogout2login] = React.useState(false); //if register successfully
+ //   console.log(logout2login);
 
     const onFinish = (values) => { //(err, values)
     //    validator(e,v)=>{try throw catch}
@@ -120,9 +127,20 @@ export const Register = (props) => {
             }).then((response) => {
                 message.success('Registration Succeed');
                 console.log(response);
-                props.history.push("/login");
-            //    return <Redirect to="/login" />;
-            //      return <Login toSignIn={props.toLogIn}/>;
+
+            //    if(props.RtoSignOut){props.RtoSignOut()}; //opt while login, press register link go to '/register' register page with logo of logout
+                //submit register transfer to '/login' real login page (previously login forced to logout and need to re-login)
+                //if already logout this line of code not executed as RtoSignOut func undefined
+
+            //    console.log(props.history);
+                props.history.push("/login"); //ok //needs {..props} or withroute in main.js  if Route render func instead of component register
+             //   return <Redirect to="/login" />;
+             //     return <Login toSignIn={props.toLogIn}/>;
+             //   webpage();
+
+            //    setLogout2login(true); //ok
+            //    props.handleLogOut2LogIn();
+             //   console.log(props.logout2loginM);
 
             }).catch((e) => {
                 message.error('Registration Failed');
@@ -190,7 +208,30 @@ export const Register = (props) => {
         value: website,
     }));
  */
-    return (
+    //logout2login?<Redirect to="/login" />:( //no matter if there is or not {..props} in main.js
+    //<Login toSignIn={this.props.toLogIn} /> //logout2login?<Login toSignIn={props.toLogIn}/>
+
+ //   return props.logout2loginM?<Login toSignIn={props.RtoLogIn} handleLogOut2LogInR={props.handleLogOut2LogInR}/>:(
+    //still "/register" even in loginpage to log in, even after login succesully, /register present loginpage with logout logo instead of home page
+    //unless press login link to login, or press home link to login or redirect to home page
+    //  & cannot go back to real register form page (handleLogOut2LogInR in login.js stack issue
+    //press register link, in /register login page (presented) to log in but not direct to home page even login successasfully in '/register' login page
+    //     <Login toSignIn={props.RtoLogIn} handleLogOut2LogInR={props.handleLogOut2LogInR()}/ but stack!
+    //while login or logout, can redir to /register but always present login form page with/without logout logo
+
+   // return props.logout2loginM?<Redirect to="/login" />:(
+    //in "/login" in login formpage or home page; and cannot go back to real register form page (show '/register' for a sec) no matter login (home page) or log out (log in page)
+
+  //  return logout2login?<Redirect to="/login" />:( //ok
+        ////in "/login" in login formpage or home page; and can go back to real register form page (/register @ register page with/without logo if login/logout)
+    //like push history -> register while login; when register succed redirect or push to /login it'll be login or home page (if user already logged in) ->register no clear already login user
+    //push history - register while login, /register @ register page with logo - just like logout2login?<Redirect to="/login" />
+    //ok
+  //  return logout2login?<Login toSignIn={props.RtoLogIn} />:(
+        //after register, '/register' presents login page with logout logo if already login (needa login? if login) (login page without logout logo if no login yet)
+        //then press register link -> still '/register' presenting login page with/without logo
+        //then press login or home link go to real login/home page; then press register link to re-register (real register page) but with/without logout logo
+    return (  //ok
         < Form className="register"
             {...formItemLayout}
             form={form}

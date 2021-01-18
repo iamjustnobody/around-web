@@ -14,11 +14,17 @@ export class Login extends React.Component{
 
 import {Form, Input, Button, Checkbox, message} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import {API_ROOT} from "../constants";
+import {API_ROOT, TOKEN_KEY} from "../constants";
 import {Link, Redirect} from "react-router-dom";
 import {Home} from "./Home";
+import {Register} from "./Register";
 
 export const Login = (props) => { //console.log(props.toSignIn);
+    console.log(props);
+  //  let bu=false;
+    const [testbu, setTestBU] = React.useState(false);
+
+ //   props.handleLogOut2LogInR();
     const onFinish = (values) => {
         try{
             console.log('Received values of form: ', values);
@@ -38,10 +44,27 @@ export const Login = (props) => { //console.log(props.toSignIn);
                 message.success('Login Succeed');
                 console.log(response);  //Bearer
             //    props.toSignIn();
-            //    props.history.push("/home");
+              //  props.history.push("/home");
+             //   props.history.push("/home",{ isSignedIn: true,});
+              /*  props.history.push({
+                    pathname: '/home',
+                    state: { isSignedIn: true,}
+                })*/
              //   return <Redirect to="/home" />;
-              //  return <Home toSignOut={props.toLogOut}/
-                props.toSignIn(response);  //response as Bearer
+              //  return <Home toSignOut={props.toLogOut}/ //not dealing w state either
+
+            //    localStorage.setItem(TOKEN_KEY,response); props.history.push("/register");
+                //login ok can direct to register page but never home page (already login & Bearer) as no change to top states
+                // unless <Route /home component={Home} BUT homepage (already login w Bearer) without logo of logout (no change to state affecting topbar)
+                //can go back to login
+                //btn=<Login {...props} toSignIn={this.props.toLogIn}/> in main.js or below
+                //test: main.js <Route path="/login" component={Login}/> <Route path="/login" render={this.getStatus}/>
+               // const bu=<Redirect to="/register" />;
+                //bu=true;
+            //    setTestBU(true);  localStorage.setItem(TOKEN_KEY,response);
+
+            //    props.handleLogOut2LogInR();
+                props.toSignIn(response);  //response as Bearer //deals with app.js state, compared to aboves //changes to states also change topbar logo
                 //LOCALSTORAGE
             }).catch((e) => {
                 message.error('Login Failed');
@@ -53,7 +76,12 @@ export const Login = (props) => { //console.log(props.toSignIn);
             console.log(err);
         }
     };
-
+// return bu?<Redirect to="/register" /> : (  //<form>  //cannot transfer
+ //   return testbu?<Redirect to="/register" /> : (  //can transfer same as push history above:
+        // change to <Route /home component={Home} shows homepage (already login w Bearer) without logo of logout ((no change to state affecting topbar)
+        //can go back to login again
+ //   return testbu?<Register /> : (
+        // /login w register page cannot go back to login unless press register or home (no logout logo if already login)
     return (
         <Form
             name="normal_login"
