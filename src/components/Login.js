@@ -17,7 +17,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import {API_ROOT, TOKEN_KEY} from "../constants";
 import {Link, Redirect} from "react-router-dom";
 import {Home} from "./Home";
-import {Register} from "./Register";
+//import {Register} from "./Register";
 
 export const Login = (props) => { //console.log(props.toSignIn);
     console.log(props);

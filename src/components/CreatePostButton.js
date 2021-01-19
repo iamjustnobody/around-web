@@ -4,6 +4,7 @@ import {CreatePostForm} from "./CreatePostForm";
 import {API_ROOT, TOKEN_KEY, AUTH_HEADER} from "../constants";
 import {Redirect} from "react-router-dom";
 import {Home} from "./Home";
+import {LOC_SHAKE} from "../constants";
 
 /*
 export class CreatePostButton extends React.Component{
@@ -57,6 +58,8 @@ export const CreatePostButton = (props) => { console.log(props);
             const loc = JSON.parse(localStorage.getItem("POS_KEY"));
             formData.set("lat",loc.lat);
             formData.set("lon",loc.lon);
+        //    formData.set("lat",loc.lat + 2*Math.random()*LOC_SHAKE - LOC_SHAKE);
+        //    formData.set("lon",loc.lon + 2*Math.random()*LOC_SHAKE - LOC_SHAKE);
             formData.set("message",eventMsg);
             formData.set("image",eventImg[0].originFileObj);
             const softtoken=localStorage.getItem(TOKEN_KEY);
