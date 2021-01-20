@@ -57,14 +57,18 @@ export class Home extends React.Component{
         }
         //this.loadNearbyPosts();
     }
-    loadNearbyPosts=()=>{
+    loadNearbyPosts=(center,radius)=>{
         const token=localStorage.getItem(TOKEN_KEY);
         this.setState({
             isLoadingPosts:true
         })
         const pos = JSON.parse(localStorage.getItem("POS_KEY"));
     //    console.log(pos); pos is an object could rewritten as const {lat,lon}
-        fetch(`${API_ROOT}/search?lat=${pos.lat}&lon=${pos.lon}&range=20000`,{
+        //`${API_ROOT}/search?lat=${pos.lat}&lon=${pos.lon}&range=20000`
+        const {lat:jing,lon:wei}=center?center:pos;
+        const distance = radius?radius:20000;
+     //   `${API_ROOT}/search?lat=${jing}&lon=${wei}&range=${distance}`
+        fetch(`${API_ROOT}/search?lat=${jing}&lon=${wei}&range=${distance}`,{
             method:'GET',
             headers:{
                 Authorization: `${AUTH_HEADER} ${token}`
@@ -76,7 +80,7 @@ export class Home extends React.Component{
             }
             throw new Error("Fail to load posts");
         }).then((response)=>{
-            console.log(response);
+            console.log(response);   //json form User url message etc
             this.setState({
                 isLoadingPosts:false,
                 posts:response?response:[]

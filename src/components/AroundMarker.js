@@ -8,26 +8,40 @@ export class AroundMarker extends React.Component{
         this.state={isOpen:false,};
     }
     toggleOpen=()=>{
-        this.setState({isOpen:(preState=>{return !preState;})()});
-     //   this.setState({isOpen:(preState=>{return !preState;})});
-    //    this.setState(preState=>{return {isOpen: !preState}});
+     //   this.setState({isOpen:(preState=>{return !preState;})()});//onmouse over ok but not out
+     //   this.setState({isOpen:(preState=>{return !preState;})}); //onmouse over ok but not out
+     //   this.setState(preState=>{return {isOpen: !preState}}); //onmouse not showing any
+          this.setState(preState=>{return {isOpen: !preState.isOpen}}); //ok
+     //   this.setState((preState=>{return {isOpen: !preState.isOpen}})()); //error
+      //  this.setState(preState=>{return {isOpen: !preState}}); //hover not working
+      //    this.setState({isOpen:(preState=>{return !preState.isOpen})}); //hover ok out not ok
+     //   this.setState({isOpen:(preState=>{return !preState.isOpen})()}); //error
+
     }
     render(){
-        const { location:{lat, lon:lng}, User:user, message,url}=this.props.postinfo;
-        const latitude = lat + 2*Math.random()*LOC_SHAKE - LOC_SHAKE;
-        const longitude = lng + 2*Math.random()*LOC_SHAKE - LOC_SHAKE;
-        return (
+    //    const { location:{lat, lon:lng}, User:user, message,url}=this.props.postinfo;
+    //    const latitude = lat + 2*Math.random()*LOC_SHAKE - LOC_SHAKE;
+    //    const longitude = lng + 2*Math.random()*LOC_SHAKE - LOC_SHAKE;
+        //position={{lat:latitude,lng:longitude}} within <Marker />
+
+        const { User:user, message,url}=this.props.postinfo;
+     //   console.log(this.props);
+        return ( //remove onClick={this.toggleOpen} from inside Marker
             <Marker
-                position={{lat:latitude,lng:longitude}}
+                position={{lati:this.props.latitude,lng:this.props.longitude}}
                 onMouseOver={this.toggleOpen}
                 onMouseOut={this.toggleOpen}
+                onClick={this.toggleOpen}
             >
-                <InfoWindow>
-                    <div>
-                        <img src={url} alt={message} className="around-marker-image" />
-                        {`${user}: ${message}`}
-                    </div>
-                </InfoWindow>
+                {this.state.isOpen?
+                    <InfoWindow onCloseClick={this.toggleOpen}>
+                        <div>
+                            <img src={url} alt={message} className="around-marker-image" />
+                            <p>{`${user}: ${message}`}</p>
+                        </div>
+                    </InfoWindow>
+                :null}
+
             </Marker>
         );
         //position={{lat,lng}}
