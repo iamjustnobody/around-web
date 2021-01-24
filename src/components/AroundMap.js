@@ -59,6 +59,7 @@ class NormalAroundMap extends React.Component{
         const vradius=this.getRadius();
         console.log(vcenter,vradius);
         this.props.loadlocalposts(vcenter,vradius);
+        //if(this.props.topic==="around"){this.props.loadlocalposts(vcenter,vradius);}else{this.props.globalfaceposts();}
     } //this func can be defined in Home.js then pass onto aroundmap.js
     //here loadnearbyposts defined in home.js then passonto aroundmap.js
     // then define reloadmarker with loadnearbyposts with parameters in aroundmap.js

@@ -87,7 +87,7 @@ export class Home extends React.Component{
             throw new Error("Fail to load posts");
         }).then((response)=>{
             console.log(response);   //json form User url message etc
-            this.setState({
+            this.setState({ //need to add if to check radioValue status so that setstate only when this.state.radioValue==="around"
                 isLoadingPosts:false,
                 posts:response?response:[]
             });
@@ -153,9 +153,19 @@ export class Home extends React.Component{
     }
     //getImagePosts func //need to before getPanelContents
 
+    loadFacesAroundTheWorld = ()=> {
+        //fire api similar to loadnearbyposts but without lat & lon endpoints/parameters
+        ////need to add if to check radioValue status so that setstate only when this.state.radioValue==="face"
+    }
     onRadioChange=(event)=>{
-        console.log(event);
+        console.log(event); console.log(this.state.radioValue+" "+event.target.value); //opposite
         this.setState({radioValue: event.target.value});
+        if(event.target.value==='face'){  //if(this.state.radioValue==='face'){
+            console.log(this.state.radioValue);
+            this.loadFacesAroundTheWorld();
+        }
+        else
+            this.loadNearbyPosts();
     }
     render(){
         const operations = <CreatePostButton loadNBPost={this.loadNearbyPosts}/>;
@@ -181,13 +191,15 @@ export class Home extends React.Component{
                                    containerElement={<div style={{ height: '390px' }} />}
                                    mapElement={<div style={{ height: `100%` }} />}
                                    poststuff={this.state.posts}
-                                   loadlocalposts={this.loadNearbyPosts}
+                                   loadlocalposts={this.state.radioValue==='face'?this.loadFacesAroundTheWorld:this.loadNearbyPosts}
                         />
                     </TabPane>
                 </Tabs>
             </div>
 
 // previously return <Tabs>; now adding <radiogroup> so need wrapped by <div>
+// so UI issue: Tabs bar css margin; so adding margin between new added tabbar & radiorgoups; so radiogroup new className (see KeJian)
+            //loadlocalposts={this.loadNearbyPosts} globalfaceposts={this.loadFacesAroundTheWorld} topic={this.state.radioValue} then if select in aroundmap.js
         );
     }
 }
