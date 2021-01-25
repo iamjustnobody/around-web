@@ -45,6 +45,10 @@ export const CreatePostButton = (props) => { console.log(props);
    //     return e.target.value; //<input value=xxx i.e. {} or ''
     }
 //handleEventValue=(getValueFromEvent)=>{setEventValue(getValueFromEvent);}
+
+    const getFormRef = (formIns) => {
+        this.formform=formIns;
+    }
     const handleOk = () =>  {
         setConfirmLoading(true);
    //     console.log(eventMsg);
@@ -71,14 +75,17 @@ export const CreatePostButton = (props) => { console.log(props);
                 }
             }).then((response) => {
                 if (response.ok) {
+                    setConfirmLoading(false);
+                    setVisible(false);
+                    this.formform.resetFields();
                     return response;
                 }
                 throw new Error(response.statusText);
             }).then((response) => {
                 message.success('Post Succeed');
                 console.log(response);
-                setConfirmLoading(false);
-                setVisible(false);
+             //   setConfirmLoading(false);
+             //   setVisible(false);
                 props.loadNBPost();//this//loadNearbyPost(); //reflesh homepage
                 // operations = <CreatePostButton loadNBPost={this.loadNearbyPosts}/>; in home.js
             //    props.history.push("/home"); //<CPB {...props}/> at home.js&& <Home {...props}/> at getStatus @Main.js
