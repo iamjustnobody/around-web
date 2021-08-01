@@ -61,8 +61,6 @@ class NormalAroundMap extends React.Component{
                 {
                     this.props.poststuff.map( eachpost =>
                         <AroundMarker key={eachpost.url} postinfo={eachpost}
-                                    //  latitude={eachpost.location.lat+2*Math.random()*LOC_SHAKE - LOC_SHAKE} //a in marker.js
-                                    //  longitude={eachpost.location.lon+2*Math.random()*LOC_SHAKE - LOC_SHAKE}  //a in marker.js
                         />)
                 }
 
