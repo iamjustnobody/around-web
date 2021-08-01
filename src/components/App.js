@@ -1,19 +1,10 @@
-//import logo from '../assets/images/logo.svg';
+
 //import '../styles/App.css';
 import React,{Component} from 'react';
 import {TopBar} from './TopBar';
 import {Main} from './Main';
 import {TOKEN_KEY} from "../constants";
 
-/*
-function App() {
-  return (
-    <div className="App">
-      <TopBar />
-    </div>
-  );
-}
-*/
 
 class App extends Component{
     constructor(props) {
