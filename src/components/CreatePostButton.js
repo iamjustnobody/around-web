@@ -6,14 +6,6 @@ import {Redirect} from "react-router-dom";
 import {Home} from "./Home";
 import {LOC_SHAKE} from "../constants";
 
-/*
-export class CreatePostButton extends React.Component{
-    render(){
-        return (
-            <Button> post </Button>
-        );
-    }
-}*/
 
 const normFile = (e) => {
     console.log('Upload event:', e);
@@ -23,7 +15,7 @@ const normFile = (e) => {
     }
 
     return e && e.fileList;
-}; //<CreatePostForm normFile={normFile}/> //getValueFromEvent={props.normFile} for FC or this.props.normFile for CC
+}; 
 
 export const CreatePostButton = (props) => { console.log(props);
     const [visible, setVisible] = React.useState(false);
@@ -42,21 +34,15 @@ export const CreatePostButton = (props) => { console.log(props);
     }
     const handleEventMsg=(e)=>{
         setEventMsg(e.target.value);
-   //     return e.target.value; //<input value=xxx i.e. {} or ''
     }
-//handleEventValue=(getValueFromEvent)=>{setEventValue(getValueFromEvent);}
 
     const getFormRef = (formIns) => {
         this.formform=formIns;
     }
     const handleOk = () =>  {
         setConfirmLoading(true);
-   //     console.log(eventMsg);
-     //   console.log(eventImg);
-//fire API
+
         try{
-            console.log(eventMsg);
-            console.log(eventImg);
             //fire api call
             const formData=new FormData();
             const loc = JSON.parse(localStorage.getItem("POS_KEY"));
@@ -83,18 +69,10 @@ export const CreatePostButton = (props) => { console.log(props);
                 throw new Error(response.statusText);
             }).then((response) => {
                 message.success('Post Succeed');
-                console.log(response);
+                //console.log(response);
              //   setConfirmLoading(false);
              //   setVisible(false);
-                props.loadNBPost();//this//loadNearbyPost(); //reflesh homepage
-                // operations = <CreatePostButton loadNBPost={this.loadNearbyPosts}/>; in home.js
-            //    props.history.push("/home"); //<CPB {...props}/> at home.js&& <Home {...props}/> at getStatus @Main.js
-                //push history not seem to reflesh the homepage as props.loadNBPost() does
-                //operations = <CreatePostButton {...this.props}/> in home.js
-
-          //      setHomeUpdate(true);
-                //    return <Redirect to="/home" />;
-                //      return <Home toSignOut={props.toLogOut}/>;
+                props.loadNBPost();
 
             }).catch((e) => {
                 message.error('Post Failed');
@@ -121,8 +99,6 @@ export const CreatePostButton = (props) => { console.log(props);
         setVisible(false);
     };
 
-    //return homeUpdate?<Home toSignOut={props.toLogOut}/>:(
-   // return homeUpdate?<Redirect to='/home' />:(
     return (
         <>
             <Button type="primary" onClick={showModal}>
@@ -140,8 +116,4 @@ export const CreatePostButton = (props) => { console.log(props);
             </Modal>
         </>
     );
-    //getValueFromEvent={this.props.normFile}
-    //<CreatePostForm normFile={normFile}>
-    //getValueFromEvent={this.props.handleEV}
-    //<CreatePostForm normFile={normFile} handleEV={handleEventValue}/> <CreatePostForm handleEV={handleEventValue}/>
 }
