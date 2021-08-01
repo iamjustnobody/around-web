@@ -6,8 +6,7 @@ import {Tabs, Button, Spin, Col, Row, Radio} from "antd";
 import {CreatePostButton} from "./CreatePostButton";
 import {AroundMap} from "./AroundMap";
 
-// const operations = <Button>Extra Action</Button>;
-//    const TabPane = Tabs.TabPane;
+
 const { TabPane } = Tabs;
 
 export class Home extends React.Component{
@@ -29,8 +28,7 @@ export class Home extends React.Component{
                 (des)=>{
                     console.log(des);
                     this.setState({isLoadingGeoLocation:false,});
-                   // localStorage.setItem("lat",des.coords.latitude);
-                //    console.log(des.coords.latitude);
+           
                     localStorage.setItem("POS_KEY",JSON.stringify(
                         {
                             lat:des.coords.latitude,
@@ -65,15 +63,9 @@ export class Home extends React.Component{
             isLoadingPosts:true
         })
         const pos = JSON.parse(localStorage.getItem("POS_KEY"));
-    //    console.log(pos); pos is an object could rewritten as const {lat,lon}
-        //`${API_ROOT}/search?lat=${pos.lat}&lon=${pos.lon}&range=20000`
-      //  const {lat:wei,lon:jing}=center?center:pos; //center.vlat center.vlong
-        //const {vlat:wei,vlong:jing}=center; //const {lat:wei,lon:jing}=pos;
         const wei=center?center.vlat:pos.lat;
         const jing=center?center.vlong:pos.lon;
         const distance = radius?radius:20000;
-     //   `${API_ROOT}/search?lat=${wei}&lon=${jing}&range=${distance}`
-        //search?lat=${center.vlat}&lon=${center.vlong}&range=${distance}
         fetch(`${API_ROOT}/search?lat=${wei}&lon=${jing}&range=${distance}`,{
             method:'GET',
             headers:{
@@ -86,8 +78,8 @@ export class Home extends React.Component{
             }
             throw new Error("Fail to load posts");
         }).then((response)=>{
-            console.log(response);   //json form User url message etc
-            this.setState({ //need to add if to check radioValue status so that setstate only when this.state.radioValue==="around"
+            //console.log(response);   
+            this.setState({ 
                 isLoadingPosts:false,
                 posts:response?response:[]
             });
@@ -101,29 +93,25 @@ export class Home extends React.Component{
 
     }
 
-    getVideoPosts = ()=>{      //getVideoPosts = (posttype)=>{
+    getVideoPosts = ()=>{      
         const postvideos=this.state.posts
-            .filter((epost) => {return epost.type === 'video'?true:false;}) //true:false; but no type in post as no ML in main.go
-            // or => epost.type === 'video';  //or =>{return epost.type === 'video';}
-            // .filter(({type}) => type === 'video') ///type===posttype // or =>{return type === 'video';}
-            .map(({User,url,message}) => {  //filter & map act upon arrays
-                return ( ////<div key={url} style={{margin:10px}}> </div> //with flex in outside return div
-                    //or <div style={{float: left}}
+            .filter((epost) => {return epost.type === 'video'?true:false;}) 
+            .map(({User,url,message}) => {  
+                return ( 
                     <Col span={6} key={url}>
                         <video src={url} controls className="video-block"/>
                         <p>{`${User}: ${message}`}</p>
                     </Col>
-                ); //within {} not within ({})
-            }); //text only return <p key={url}>{`$(User}: ${message}`}</p>;
+                ); 
+            }); 
         return <Row gutter={32}>{postvideos}</Row>;
-        //return <div style={{display:flex}}>{postvideos}</div>;
-    } //need to before getPanelContents
+        
+    }
 
-    getImagePosts = ()=>{      //getImagePosts = (posttype)=>{
+    getImagePosts = ()=>{      
         const postimg=this.state.posts
-            .filter((epost) => {return epost.type === 'image'?false:true;}) //true:false; but no type in post as no ML in main.go//=> epost.type === 'image';  //{return epost.type === 'image';}
-            // .filter(({type}) => type === 'image') ///type===posttype //{return type === 'image';}
-            .map(({User,url,message}) => ({  //filter & map act upon arrays  //or =>{return {};}
+            .filter((epost) => {return epost.type === 'image'?false:true;}) 
+            .map(({User,url,message}) => ({  
                 user: User,
                 src: url,
                 thumbnail: url,
@@ -131,9 +119,8 @@ export class Home extends React.Component{
                 thumbnailWidth: 400,
                 thumbnailHeight: 300
             }));
-       //     return 'gallary'+this.state.posts.length;
         return <GalleryShow images={postimg} />;
-    } //need to before getPanelContents
+    } 
 
     getPanelContents=(posttype)=>{
         if(this.state.error){
@@ -143,25 +130,21 @@ export class Home extends React.Component{
         }else if(this.state.isLoadingPosts) {
             return <div> loading posts... </div>;
         }else if(this.state.posts&&this.state.posts.length>0){
-           // this.getImagePosts(); //need to return galleryshow
-            if(posttype==='image'){return this.getImagePosts();} //this.getImagePosts(posttype) must add return
-            else{return this.getVideoPosts();} //this.getVideoPosts(posttype); //need to return
-        //    return this.getImagePosts();
+            if(posttype==='image'){return this.getImagePosts();}
+            else{return this.getVideoPosts();} 
         }else{
             return 'No nearby Posts';
         }
     }
-    //getImagePosts func //need to before getPanelContents
 
     loadFacesAroundTheWorld = ()=> {
         //fire api similar to loadnearbyposts but without lat & lon endpoints/parameters
-        ////need to add if to check radioValue status so that setstate only when this.state.radioValue==="face"
+        //// check radioValue status -> setstate only when this.state.radioValue==="face"
     }
     onRadioChange=(event)=>{
-        console.log(event); console.log(this.state.radioValue+" "+event.target.value); //opposite
         this.setState({radioValue: event.target.value});
-        if(event.target.value==='face'){  //if(this.state.radioValue==='face'){
-            console.log(this.state.radioValue);
+        if(event.target.value==='face'){  
+          //  console.log(this.state.radioValue);
             this.loadFacesAroundTheWorld();
         }
         else
@@ -169,10 +152,8 @@ export class Home extends React.Component{
     }
     render(){
         const operations = <CreatePostButton loadNBPost={this.loadNearbyPosts}/>;
-    //    const operations = <CreatePostButton {...this.props}/>; //push history in CPB.js
-    //    const operations = <CreatePostButton />;
-        return ( //tabBarExtraContent={operations} //<Radio.Group defaultValue="around" //face radio canbe selected
-            // value={this.state.radioValue} //face radio can not be selected  so need onclick/onchange to change state radioValue
+   
+        return (
             <div>
                 <Radio.Group value={this.state.radioValue} onChange={this.onRadioChange}>
                     <Radio value="around"> Posts Around Me</Radio>
@@ -197,9 +178,6 @@ export class Home extends React.Component{
                 </Tabs>
             </div>
 
-// previously return <Tabs>; now adding <radiogroup> so need wrapped by <div>
-// so UI issue: Tabs bar css margin; so adding margin between new added tabbar & radiorgoups; so radiogroup new className (see KeJian)
-            //loadlocalposts={this.loadNearbyPosts} globalfaceposts={this.loadFacesAroundTheWorld} topic={this.state.radioValue} then if select in aroundmap.js
         );
     }
 }
