@@ -2,17 +2,6 @@ import React from 'react';
 import {Form, Input, Upload} from "antd";
 import {InboxOutlined} from '@ant-design/icons';
 
-/*
-const normFile = (e) => {
-    console.log('Upload event:', e);
-
-    if (Array.isArray(e)) {
-        return e;
-    }
-
-    return e && e.fileList;
-}; //getValueFromEvent={normFile}
- */
 
 function b4ULbu (){return false;} //beforeUpload={b4ULbu}
 const b4ULbu2 = ()=>{return false;}  //beforeUpload={b4ULbu2}
@@ -22,16 +11,6 @@ export class CreatePostForm extends React.Component{
     b4UL = ()=>{return false;}  //beforeUpload={this.b4UL}
     b4UL2 = () => false; //beforeUpload={this.b4UL2}
 
-  // wrong b4UL3 below
-   //  this.state.b4UL3={false}; //b4UL3={false}; //both inside <> or false should be field here inside {} or var/const/let outside class
-   // b4UL3=false; ok grammarily//use const b4UL3=false outside class inside/outside function
-
-   // state={b4UL3:false,}
-    //equals to constructor (props){super(props);this.state={b4UL3:false,};}
-//beforeUpload={this.b4UL3}
-
-    // beforeUpload={false}??? or just beforeUpload???
-    //or use const [,]=React.useState(false)
 
     render(){
         const formItemLayout={
@@ -80,11 +59,6 @@ export class CreatePostForm extends React.Component{
 
 
         );
-        //getValueFromEvent={this.props.normFile} //handleEV=(getValueFromEvent)=>{setEventValue(getValueFromEvent);}
-        //<CreatePostForm normFile={normFile}> <CreatePostForm normFile={normFile} handleEV={handleEventValue}/>
-        //getValueFromEvent={this.props.handleEV}
-        //<CreatePostForm normFile={normFile} handleEV={handleEventValue}/> <CreatePostForm handleEV={handleEventValue}/>
 
-   //onChange={(e)=>{this.props.handleEVMsg(e);}}  getValueFromEvent={(e)=>this.props.handleEVImg}
     }
 }
